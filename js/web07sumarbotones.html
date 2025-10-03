@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        button{
+            margin: 5px;
+            padding: 5px;
+            font-size: 16px;
+            
+
+        }
+    </style>
+</head>
+<body>
+    <h1>Sumar Botones Dinamicamente</h1>
+    <div id="botones"></div>
+    <h1 id="resultado">Suma</h1>
+     <script src="jquery-3.7.1.js"></script>
+     <script>
+        $(document).ready(function(){
+            var suma = 0;
+            //genera 10 botones 
+            for (var i = 0; i < 10; i++){
+                var numero = Math.floor(Math.random()*100) + 1; //genera numeros aletorios del 1-100
+                var boton = $("<button>").text("numero" + numero).val(numero);
+                //evento click para los botones
+                boton.on("click", function(){
+                    suma += parseInt($(this).val());
+                    $("#resultado").text("suma: " + suma);
+
+                })
+                $("#botones").append(boton);
+            }
+        })
+     </script>
+</body>
+</html>
