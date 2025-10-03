@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>departamentos xml</title>
+</head>
+<body>
+    <h1>departamentos</h1>
+    <button id="botonleer">Leer XML</button>
+    <table id="tabladepartamentos">
+        <thead>
+            <tr>
+                <th>Numero</th>
+                <th>Nombre</th>
+                <th>Localidad</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <script src="js/jquery-3.7.1.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#botonleer").click(function(){
+                $.get("documents/departamentos.xml", function(data){
+                    console.log("leyendo...");
+                    $(data).find("DEPT").each(function(){
+                        var numero = $(this).attr("DEPT_NO");
+                        //recuperamos la primera etiqueta de nombre dentro de this
+                        var nombre = $(this).find("DNOMBRE").first().text();
+                        var localidad = $(this).find("LOC").first().text();
+                        html += "<tr>";
+                        html += "<td>" + numero + "</td>";
+                        html += "<td>" + nombre + "</td>";
+                        html += "<td>" + localidad + "</td>";
+                        html += "</tr>";               
+                    })
+                    $("#tabladepartamentos tbody").html(html);
+                })
+            })
+
+        })
+    </script>
+</body>
+</html>
