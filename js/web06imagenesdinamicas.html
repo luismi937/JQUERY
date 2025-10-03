@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>imagenes dinamicas</title>
+    <style>
+        img{
+            width: 90px; height: 90px;
+        }
+    </style>
+</head>
+<body>
+    <h1> generar imagenes</h1>
+    <input type="range" id="rango" max="20" min="1" value="1"/>
+    <button id="botongenerarimagenes">Generar</button>
+    <span id="valorrango"></span>
+    <div id="contenedor"></div>
+    <script src="jquery-3.7.1.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#rango").change(function(){
+                var numImagenes = parseInt($("#rango").val());
+                $("#valorrango").text(numImagenes);
+                //limpiamos el contenedor de imagenes
+                console.log(numImagenes)
+                $("#contenedor").html("");
+                for(var i = 1; i <= numImagenes; i++){
+                    var imagen = $("<img>");
+                    imagen.attr("src", "imagenes/hermes.jpg");
+                    $("#contenedor").append(imagen);
+                    imagen.mouseover(function(){
+                        $(this).attr("src", "imagenes/dior.jfif")
+
+                    })
+                    imagen.mouseout(function(){
+                        $(this).attr("src", "imagenes/hermes.jpg")
+                    })
+                }
+            })
+
+
+        })
+    </script>
+</body>
+</html>

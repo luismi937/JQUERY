@@ -4,21 +4,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+    <style>
+        .rojo{
+            color: red;
+        }
+    </style>
 </head>
 <body>
     <!-- poner comentarios en Ide de microsoft control + k + c -->
     aaaa
     <!-- quitar comentarios de id de mcrosoft control + k + u -->
+
+    <h1 class="rojo">Selectores de JQUERY</h1>
+    <h2>Esto es una prueba</h2>
+    <button id="boton1" class="rojo">Soy un boton 1</button>
+    <button id="boton2">Soy un boton 2</button>
      <script src="jquery-3.7.1.js"></script>
      <script>
         // aqui todo nuestro codigo Jquery
         // la primera linea debe ser la siguiente
         $(document).ready(function(){
             // aqui dentro las peticiones
-            alert("Hola Mundo")
+            // alert("Hola Mundo")
+            $("h2").hide();
+            // hide es ocultar y h2 lo que quieres ocultar
+            $("#boton1").hide();
+            //actua sobre los objetos que nosotros indiquemos 
+            //Podemos asociar acciones a los objetos (lo que nos referimos a CUANDO)
+            $("p").click(function(){
+                //cuando pulsemos algun parrafo el boton 1 se ocultara
+                $("boton1").hide();
+
+                //Imprescindibles en el desarrollo front los mensajes por consola
+                //tecla f12 herramientas de administrador para seguir lo que pasa y ver los mensajes por consola
+                console.log("mensaje por consola")
+                //Existe una palabra clave que indica que accedemos al objeto que ha realizado la llamada: this
+                $("this").hide();
+            
+
+            })
+
 
         })
-
+         $(".rojo").click(function(){
+                //cuando pulsemos algun parrafo el boton 1 se ocultara
+                $("this").hide();
+         })
      </script>
 </body>
 </html>
