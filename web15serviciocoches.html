@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>lectura coches xml</title>
+</head>
+<body>
+    <h1>Servicio coche</h1>
+    <hr/>
+    <select id="selectcoche">   
+        <option value="1">porsche 911</option>
+        <option value ="2">pontiac firebird</option>
+    </select>
+    <div id="contenedor"></div>
+
+    <script src="js/jquery-3.7.1.js"></script>
+    <script>
+    $(document).ready(function(){
+        //leemos el servicio y cargamos todos los coches
+        //el servicio lo vamos a leer al incio y al seleccionar
+        let ulr ="https://apiclientesxml.azurewebsites.net/ ";
+        let request ="api/Clientes/GetCochesXML"
+        $.get(url + request, function(data){
+            console.log("leyendo...")
+            $(data).find("coche").each(function(){
+                var id = $(this).attr("idcoche");
+                var marca = $(this).find("marca").text()
+                var modelo  = $(this).find(modelo).text()
+                var option = $("<option>");
+                option.val(id)
+                option.tect(marca + " " + modelo)
+                $("#selectcoche").append(option)
+            })
+    
+        })
+        $("#selectcoche").change(function(){
+            var id = $(this).val()//el id del option
+            $.get(url + request, function(data){
+                var filtro  = "coche[idcoche" + id + "]"
+                var nodo = $(data).find(filtro).first();
+                var imagen = nodo.find("imagen").text();
+                $("#contenedor").html("<img src'" +imagen + "'style='width: 150px, height: 150px/>");
+            })
+        })
+    })
+
+    </script>
+    
+</body>
+</html>
