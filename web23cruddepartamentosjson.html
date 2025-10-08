@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Crud sobre departamentos</h1>
+    <label>Id Departamento</label>
+    <input type="text" id="cajaid">
+    <label>Nombre</label>
+    <input type="text" id="cajanombre"/></br>
+    <label>localidad</label>
+    <input type="text" id="cajalocalidad"/></br>
+    <button id="botoninsert">insertar</button>
+    <button id="botonupdate">modificar</button>
+    <button id="botondelete">Delete</button>
+    <table id="tabladepartamentos" ,border="1">
+        <thead>
+            <tr>
+                <th>Id departamentos</th>
+                <th>Nombre</th>
+                <th>Localidad</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script src="js/jquery-3.7.1.js"></script>
+    <script>
+        let url = "https://apicruddepartamentoscore.azurewebsites.net/";
+
+        $(document).ready(function(){
+            loadDepartamentos();
+            $("#botoninsert").click(function(){
+                var numero =parseInt($("#cajaid").val());
+                var nombre = $("#cajanombre").val();
+                var localidad = $("#cajalocalidad").val();
+                //necesitamos crear un nuevo objeto js con las mismas propiedades dinamicas del json
+                var departamento = new Object();
+                departamento.numero = numero;
+                departamento.nombre = nombre;
+                departamento.localidad = localidad;
+                //convertimos el objeto js a json
+                var dataJSON = JSON.stringify(departamento);
+                console.log(dataJSON);
+                var request = "api/departamentos";
+                $.ajax({
+                    url: url + request,
+                    type: "post",
+                    contentType: "application/json",
+                    data: dataJSON,
+                    success: function(){
+                        console.log("insertado correctamente");
+                        loadDepartamentos();
+                    }
+
+                })
+
+        
+            })
+
+            $("#botonupdate").click(function(){
+                var id = parseInt($("#cajaid").val());
+                var nombre = $("#cajanombre").val();
+                var localidad = $("#cajalocalidad").val();
+                //asignamos las propiedades que necesita
+                var departamento = new Object();
+                departamento.numero = id;
+                departamento.nombre = nombre;
+                departamento.localidad = localidad;
+                var dataJSON = JSON.stringify(departamento);
+                console.log(dataJSON);
+                var request = "api/departamentos";
+                $.ajax({
+                    url: url + request,
+                    type: "put",
+                    contentType: "application/json",
+                    data: dataJSON,
+                    success: function(){
+                        console.log("modificado correctamente");
+                        loadDepartamentos();
+                    }
+
+                })
+
+            })
+            $("#botondelete").click(function(){
+                var id = $("#cajaid").val();
+                var request = "api/departamentos" + id;
+                 $.ajax({
+                    url: url + request,
+                    type: "delete",
+                    success: function(){
+                        console.log("borrado correctamente");
+                        loadDepartamentos();
+                    }
+
+                })
+            })
+        })
+
+        function loadDepartamentos(){
+            let request = "api/Departamentos";
+            $.getJSON(url + request, function(data){
+                console.log("leyendo...");
+                var html = "";
+                    $.each(data, function(index,departamento){
+                        html +="<tr>";
+                        html += "<td>" +departamento.numero+ "</td>";
+                        html += "<td>" +departamento.nombre+ "</td>";
+                        html += "<td>" +departamento.localidad+ "</td>";
+                        html +="</tr>";
+                    })
+                    $("#tabladepartamentos tbody").html(html)
+            })
+        }
+    </script>
+</body>
+</html>

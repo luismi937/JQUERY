@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+     <h1>Departamento para empleados</h1>
+    <ul id="listaparques">
+        <li><a data-key="10">Terra Mitica</a></li>
+        <li><a data-key="20">Disneyland</a></li>
+        <li><a data-key="30">Port Aventura</a></li>
+        <li><a data-key="40">Parque Warner</a></li>
+    </ul>
+    <div id="tablaempleados"></div>
+    <script src="js/jquery-3.7.1.js"></script>
+    <script>
+        let url =" https://apicruddepartamentospgs.azurewebsites.net/"
+        $(document).ready(function(){
+            $("listaparques").on("click", "a", function(){
+                const deptKey = $(this).data("key"); //obtener el valor de datakey
+                loadEmpleados(deptKey);
+            })
+        })
+        function loadEmpleados(departamentoId){
+            $.ajax({
+                url: url,
+                method: "get",
+                dataType: "json",
+                success: function(empleados){
+                    const filtrados = empleados.filter(function(emp){
+                        return emp.Departamento ===departamentoId;
+
+                    });
+                    verEmpleados(filtrados);
+                },
+                error : function(){
+                    $("#tablaempleados").html("<p style='color:red;'>Error al cargar</p>");
+                }
+            });
+            function verEmpleados(empleados){
+                const contenedor = $("#tablaempleados");
+                if (empleados.length === 0){
+                    contenedor.html("<p>No hay empleados en este departamento</p>");
+                    return;
+
+                }
+                let html= '<table><thead><tr> <th>Apellido</th><th>oficio</th> <th>salario</th> <th>Departamento</th></tr></thead><tbody>';
+                
+                $.each(empleados, function(index, emp){
+                    html += '<table><thead><tr> <th>${emp.Apellido}</th><th>${emp.Oficio}</th> <th>${emp.Salario}</th><th>${emp.Departamento}</th></tr></thead><tbody>';
+                });
+                html += "</tbody></table>"
+                contenedor.html(html);
+            }
+        }
+    </script>
+</body>
+</html>
