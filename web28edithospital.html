@@ -10,8 +10,7 @@
     <title>Fixed top navbar example · Bootstrap v5.3</title>
     <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/navbar-fixed/">
     <script src="js/color-modes.js"></script>
-    <link href="css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
     <link rel="apple-touch-icon" href="/docs/5.3/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
     <link rel="icon" href="/docs/5.3/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
     <link rel="icon" href="/docs/5.3/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
@@ -179,57 +178,65 @@
     </nav>
     <main class="container">
         <div class="bg-body-tertiary p-5 rounded">
-            <h1>Create Hospital</h1>
-            <label>Id Hospital</label>
-            <input type="text" id="cajaid" class="form-control"></br>
+            <h1>Edit Hospital</h1>
+            <input type="hidden" id="cajaid">
             <label>Nombre</label>
-            <input type="text" id="cajanombre" class="form-control"></br>
+            <input type="text" id="cajanombre">
             <label>Direccion</label>
-            <input type="text" id="cajadireccion" class="form-control"></br>
-            <label>telefono</label>
-            <input type="text" id="cajatelefono" class="form-control"></br>
-            <label>Numero Camas</label>
-            <input type="text" id="cajacamas" class="form-control"></br>
-            <button id="botoninsertar" class ="btn btn-info">Insertar Hospital</button>
+            <input>Telefono</label>
+            <input type="text" id="cajatelefono">
+            <label>Camas</label>
+            <input type="text" id="cajacamas">
+            <button id="botonmodificar" class="btn btn-info">Update</button>
         </div>
     </main>
     <script src="js/bootstrap.bundle.js"></script>
     <script src="js/jquery-3.7.1.js"></script>
     <script>
-        let url = "https://apicrudhospital.azurewebsites.net/ "
+        let url = "https://apicrudhospital.azurewebsites.net/";
         $(document).ready(function(){
-           $("#botoninsertar").click(function(){
-            var requestPost = "webresources/hospitales/post";
-            var id = parseInt($("#cajaid").val());
-            var nombre = $("#cajanombre").val();
-            var direccion = $("#cajadireccion").val();
-            var telefono = $("#cajatelefono").val();
-            var camas = parseInt($("#cajacamas").val());
-            //creamos un nuevo objeto hospital
-            var hospital = new Object();
-            hospital.idhospital = id;
-            hospital.nombre= nombre;
-            hospital.direccion = direccion;
-            hospital.telefono = telefono;
-            hospital.camas = camas;
-            //convertimos el objetto a json
-            var hospitalJSON = JSON.stringify(hospital);
-            //se recomienda hacer console log peroiodicos para aseguar que esta buen hecho
-            console.log(hospitalJSON)
-            $.ajax({
-                url: url +requestPost,
-                type: "post",
-                contentType: "application/json",
-                data: hospitalJSON,
-                success: function(){
-                    // $("#mensaje").text("hospital insertado")
-                    //esto hace que una vez que inserte un hospital automaticamente me devuelva a la pagina principal
-                    window.location.href = "web28homehospitales.html"
-
-                }
+            $("#botonmodificar").click(function(){
+                var id = parseInt($("#cajaid").val());
+                var nombre = $("#cajanombre").val();
+                var direccion = $("#cajadireccion").val();
+                var telefono = $("#cajatelefono").val();
+                var camas = parseInt($("#cajacamas").val());
+                hospital.idhospital = id;
+                hospital.nombre = nombre;
+                hospital.direccion = direccion;
+                hospital.telefono = telefono;
+                hospital.camas = camas;
+                var hospitalJSON = JSON.stringify(hospital);
+                console.log(hospitalJSON);
+                var requestPut = "webresources/hospitales/put";
+                $.ajax({
+                    url: url +requestPut,
+                    type: "put",
+                    contentType: "application/json",
+                    data: hospitalJSON,
+                    success: function(){
+                        console.log("Updated"),
+                        window.location.href = 'web28detailshospital.html?idhospital=' + id
+                    }
+                })
             })
+             var params = new Window.UrlSearchParams(window.location.search);
+             var idHospital = params.get("idhospital");
+             console.log("Id: " +idHospital)
+             var requestFind = "webresources/hospitales/" +idHospital;
+             $.ajax({
+                url: url + requestFind,
+                type:"get",
+                success: function(data){
+                    console.log("leyendo hospital")
+                    $("#cajaid").val(data.idhospital);
+                    $("#cajanombre").val(data.nombre);
+                    $("#cajadireccion").val(data.direccion);
+                    $("#cajatelefono").val(data.telefono);
+                    $("#cajacamas").val(data.camas);
+                }
+             })
 
-           })
         })
     </script>
 </body>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="auto">
+<html lang="en" class="h-100" data-bs-theme="auto">
 
 <head>
     <meta charset="utf-8">
@@ -7,11 +7,10 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Astro v5.13.2">
-    <title>Fixed top navbar example · Bootstrap v5.3</title>
-    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/navbar-fixed/">
+    <title>Sticky Footer Navbar Template · Bootstrap v5.3</title>
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/sticky-footer-navbar/">
     <script src="js/color-modes.js"></script>
-    <link href="css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
     <link rel="apple-touch-icon" href="/docs/5.3/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
     <link rel="icon" href="/docs/5.3/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
     <link rel="icon" href="/docs/5.3/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
@@ -19,7 +18,7 @@
     <link rel="mask-icon" href="/docs/5.3/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
     <link rel="icon" href="/docs/5.3/assets/img/favicons/favicon.ico">
     <meta name="theme-color" content="#712cf9">
-    <link href="css/navbar-fixed.css" rel="stylesheet">
+    <link href="navbar-fixed.css" rel="stylesheet">
     <style>
         .bd-placeholder-img {
             font-size: 1.125rem;
@@ -104,7 +103,7 @@
     </style>
 </head>
 
-<body> <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+<body class="d-flex flex-column h-100"> <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
         <symbol id="check2" viewBox="0 0 16 16">
             <path
                 d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z">
@@ -160,78 +159,93 @@
                     </svg> </button> </li>
         </ul>
     </div>
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <div class="container-fluid"> <a class="navbar-brand" href="#">Crud Hospitales</a> <button class="navbar-toggler"
-                type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse"
-                aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarCollapse">
-                <ul class="navbar-nav me-auto mb-2 mb-md-0">
-                    <li class="nav-item"> <a class="nav-link active" aria-current="page" href="web28homehospitales.html">Home</a> </li>
-                    <li class="nav-item"> <a class="nav-link" href="web28createhospital.html">Nuevo Hospital</a> </li>
-                    <li class="nav-item"> <a class="nav-link disabled" aria-disabled="true">Disabled</a> </li>
-                </ul>
-                <form class="d-flex" role="search"> <input class="form-control me-2" type="search" placeholder="Search"
-                        aria-label="Search"> <button class="btn btn-outline-success" type="submit">Search</button>
-                </form>
+    <header> <!-- Fixed navbar -->
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+            <div class="container-fluid"> <a class="navbar-brand" href="#">Fixed navbar</a> <button
+                    class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+                    aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation"> <span
+                        class="navbar-toggler-icon"></span> </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                        <li class="nav-item"> <a class="nav-link active" aria-current="page" href="#">Home</a> </li>
+                        <li class="nav-item"> <a class="nav-link" href="#">Link</a> </li>
+                        <li class="nav-item"> <a class="nav-link disabled" aria-disabled="true">Disabled</a> </li>
+                    </ul>
+                    <form class="d-flex" role="search"> <input class="form-control me-2" type="search"
+                            placeholder="Search" aria-label="Search"> <button class="btn btn-outline-success"
+                            type="submit">Search</button> </form>
+                </div>
             </div>
+        </nav>
+    </header> <!-- Begin page content -->
+    <main class="flex-shrink-0">
+        <div class="container">
+            <h1 class="mt-5">Home Doctores</h1>
+            <p class="lead">
+                <code class="small"></code> 
+                <code class="small"> &gt;</code>
+            </p>
+            <p> <a href="/docs/5.3/examples/sticky-footer/"></a></p>
         </div>
-    </nav>
-    <main class="container">
+    </main>
+    <footer class="footer mt-auto py-3 bg-body-tertiary">
+        <div class="container"> <span class="text-body-secondary">Home Doctores</span> </div>
+    </footer>
+    <script src="js\bootstrap.bundle.js">
+        </script>
+     <main class="container">
         <div class="bg-body-tertiary p-5 rounded">
-            <h1>Create Hospital</h1>
-            <label>Id Hospital</label>
+            <h1>Create Doctor</h1>
+            <label>Id Doctor</label>
             <input type="text" id="cajaid" class="form-control"></br>
-            <label>Nombre</label>
-            <input type="text" id="cajanombre" class="form-control"></br>
-            <label>Direccion</label>
-            <input type="text" id="cajadireccion" class="form-control"></br>
-            <label>telefono</label>
-            <input type="text" id="cajatelefono" class="form-control"></br>
-            <label>Numero Camas</label>
+            <label>Id Hospital</label>
+            <input type="text" id="cajaidhospital" class="form-control"></br>
+            <label>Apellido</label>
+            <input type="text" id="cajaapellido" class="form-control"></br>
+            <label>Especialidad</label>
+            <input type="text" id="cajaespecialidad" class="form-control"></br>
+            <label>Camas</label>
             <input type="text" id="cajacamas" class="form-control"></br>
-            <button id="botoninsertar" class ="btn btn-info">Insertar Hospital</button>
+            <button id="botoncrear" class ="btn btn-info">Crear Doctor</button>
         </div>
     </main>
     <script src="js/bootstrap.bundle.js"></script>
     <script src="js/jquery-3.7.1.js"></script>
     <script>
-        let url = "https://apicrudhospital.azurewebsites.net/ "
-        $(document).ready(function(){
-           $("#botoninsertar").click(function(){
-            var requestPost = "webresources/hospitales/post";
+        let url = "https://apicruddoctores.azurewebsites.net/ "
+        $(document).ready(function () {
+            let request = "api/Doctores";
+            $("#botoncrear").click(function(){
+            var requestPost = "api/Doctores/post";
             var id = parseInt($("#cajaid").val());
-            var nombre = $("#cajanombre").val();
-            var direccion = $("#cajadireccion").val();
-            var telefono = $("#cajatelefono").val();
+            var idhospital = parseInt($("#cajaidhospital").val());
+            var apellido = $("#cajaapellido").val();
+            var especialidad = $("#cajaespecialidad").val();
             var camas = parseInt($("#cajacamas").val());
-            //creamos un nuevo objeto hospital
-            var hospital = new Object();
-            hospital.idhospital = id;
-            hospital.nombre= nombre;
-            hospital.direccion = direccion;
-            hospital.telefono = telefono;
-            hospital.camas = camas;
-            //convertimos el objetto a json
-            var hospitalJSON = JSON.stringify(hospital);
-            //se recomienda hacer console log peroiodicos para aseguar que esta buen hecho
-            console.log(hospitalJSON)
+
+            var doctores = new Object();
+            doctores.id = id;
+            doctores.idhospital= idhospital;
+            doctores.apellido = apellido;
+            doctores.especialidad = especialidad;
+            doctores.camas = camas;
+            var doctoresJSON = JSON.stringify(doctores);
+            console.log(doctoresJSON)
             $.ajax({
                 url: url +requestPost,
                 type: "post",
                 contentType: "application/json",
                 data: hospitalJSON,
                 success: function(){
-                    // $("#mensaje").text("hospital insertado")
-                    //esto hace que una vez que inserte un hospital automaticamente me devuelva a la pagina principal
-                    window.location.href = "web28homehospitales.html"
+                    window.location.href = "web29homedoctores.html"
 
                 }
             })
 
            })
         })
+            
     </script>
 </body>
 
-</html> 
+</html>

@@ -161,13 +161,15 @@
         </ul>
     </div>
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <div class="container-fluid"> <a class="navbar-brand" href="#">Crud Hospitales</a> <button class="navbar-toggler"
-                type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse"
-                aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span>
+        <div class="container-fluid"> <a class="navbar-brand" href="#">Crud Hospitales</a> <button
+                class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation"> <span
+                    class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
-                    <li class="nav-item"> <a class="nav-link active" aria-current="page" href="web28homehospitales.html">Home</a> </li>
+                    <li class="nav-item"> <a class="nav-link active" aria-current="page"
+                            href="web28homehospitales.html">Home</a> </li>
                     <li class="nav-item"> <a class="nav-link" href="web28createhospital.html">Nuevo Hospital</a> </li>
                     <li class="nav-item"> <a class="nav-link disabled" aria-disabled="true">Disabled</a> </li>
                 </ul>
@@ -195,31 +197,50 @@
     <script src="js/bootstrap.bundle.js"></script>
     <script src="js/jquery-3.7.1.js"></script>
     <script>
-        let url =" https://apicrudhospital.azurewebsites.net/ "
-        $(document).ready(function(){
+        let url = "https://apicrudhospital.azurewebsites.net/";
+        $(document).ready(function () {
+            //CODIGO DE ELIMINAR DEBE ESTAR ANTES DE DIBUJAR... 
+            var params = new window.URLSearchParams(window.location.search);
+            var idDelete = params.get('iddelete');
+            console.log("Delete: " + idDelete);
+            //TRISTE IF PARA VER SI TENEMOS DATOS 
+            if (idDelete != null) {
+                var requestDelete = "webresources/hospitales/delete/" + idDelete;
+                $.ajax({
+                    url: url + requestDelete,
+                    type: "DELETE",
+                    success: function () {
+                        console.log("Eliminando hospital: " + idDelete);
+                    }
+                })
+            }
             let request = "webresources/hospitales";
             $.ajax({
-                url: url +request,
-                type: "get",
-                success: function(data){
-                 console.log("leyendo hospitales")
-                 $.each(data, function(index, hospital){
-                    html += "<tr>";
-                    html += "<td>" + hospital.nombre + "</td>";
-                    html += "<td>" + hospital.direccion + "</td>";
-                    html += "<td>";
-                    
-                    html += "<a href= 'web28detailshospital.html?idhodpital="
-                    +hospital.idhospital + "'>Details</a>";
-                    html += "</td>";
-                    html += "</tr>";
-
-                 })
-                 $("#tablahospitales tbody").html(html);
+                url: url + request,
+                type: "GET",
+                success: function (data) {
+                    console.log("Leyendo hospitales");
+                    var html = "";
+                    $.each(data, function (index, hospital) {
+                        html += "<tr>";
+                        html += "<td>" + hospital.nombre + "</td>";
+                        html += "<td>" + hospital.direccion + "</td>";
+                        html += "<td>";
+                        //web28detailshospital.html?idhospital=99 
+                        html += "<a href='web28detailshospital.html?idhospital="
+                            + hospital.idhospital + "' class='btn btn-success'>Details</a>";
+                        html += "<a href='web28edithospital.html?idhospital="
+                            + hospital.idhospital + "' class='btn btn-info'>Edit</a>";
+                        html += "<a href='web28homehospitales.html?iddelete="
+                            + hospital.idhospital + "' class='btn btn-danger'>Delete</a>"
+                        html += "</td>";
+                        html += "</tr>";
+                    })
+                    $("#tablahospitales tbody").html(html);
                 }
             })
         })
     </script>
 </body>
 
-</html> 
+</html>
