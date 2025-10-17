@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mini Practica</title>
+  </head>
+  <body>
+    <h1>Practica jquery</h1>
+    <div>
+      <label>Seleccione un curso: </label>
+      <select id="selectcurso">
+        <option>Seleccione un curso</option>
+        <option>2017</option>
+        <option>2018</option>
+        <option>2019</option>
+        <option>2020</option>
+        <option>2021</option>
+        <option>2022</option>
+        <option>2023</option>
+        <option>2024</option>
+        <option>2025</option>
+      </select>
+      <ul id="listaalumnos"></ul>
+
+      <div id="detalles">
+        <h3>Detalles del alumno</h3>
+        <p>Seleccione un alumno para ver sus detalles</p>
+      </div>
+    </div>
+    <br />
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+      const api = "https://apiejemplos.azurewebsites.net/";
+      $(document).ready()({
+        $.getJSON('${api}/idCursos'),function(idCursos){
+            cursos.array.forEach(idCursos => {
+                $("#curso").append('<option value="${curso}">${curso}</option>')
+
+            
+        });
+      )}
+        
+        $("#curso").change(function(){
+            cosnt curso= $(this).val;
+            const lista = $("#listaalumnos");
+            lista.empty();
+
+            if(!curso){
+                lista.append("<li>seleccione un curso valido</li>");
+                return;
+            }
+            $.getJSON('${api}/Alumnos/${curso}', function(alumno){
+                if (alumnos.length === 0){
+                    lista.append("<li>No hay alumnos para este curso</li>")
+                }else{
+                    alumnos.forEach(alumno=>{
+                        lista.append('<li>${alumno.nombre} <button class="detalleBTN" id="${alumno.idAlumno}"> detalles  </button> </li>')
+                    })
+                }
+            })
+
+        })
+        $(document).on("click", "detalleBTN"), function(){
+            const id =$(this).data("id");
+            $.getJSON('${api}/Alumno/${idAlumno}', function(alumno){
+                $("#detalles").html('<h3>${alumno.nombre}</h3><p><strong>idAlumno</strong>${alumno.idAlumno}</p><img src="${alumno.Foto} alt="Foto del alumno"')
+
+                
+            }).fail(function(){
+                alert("no hay alumnos")
+            })
+        }
+        
+    </script>
+  </body>
+</html>
