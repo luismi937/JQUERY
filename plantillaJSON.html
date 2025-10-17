@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Visualizador de JSON desde archivo externo</title>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <style>
+    table, th, td {
+      border: 1px solid black;
+      border-collapse: collapse;
+      padding: 8px;
+    }
+    table {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+    ul {
+      list-style-type: none;
+      padding-left: 0;
+    }
+    .formulario {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-bottom: 20px;
+    }
+    .formulario label {
+      font-weight: bold;
+    }
+    .formulario input {
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Visualizador de Datos JSON</h1>
+  <button id="cargar">Cargar JSON</button>
+
+  <h2>Tabla</h2>
+  <div id="tabla-container"></div>
+
+  <h2>Lista</h2>
+  <div id="lista-container"></div>
+
+  <h2>Formulario</h2>
+  <div id="formulario-container"></div>
+
+  <script>
+    $(document).ready(function () {
+
+      // ✅ AQUÍ VA LA LÍNEA PARA DEFINIR LA RUTA AL JSON EXTERNO
+      const urlJSON = 'datos.json'; // Reemplaza por la ruta real si es diferente
+
+      $('#cargar').on('click', function () {
+        $.getJSON(urlJSON, function (data) {
+          mostrarTabla(data);
+          mostrarLista(data);
+          mostrarFormulario(data);
+        }).fail(function () {
+          alert('Error al cargar el archivo JSON');
+        });
+      });
+
+      function mostrarTabla(data) {
+        let html = '<table><tr>';
+        Object.keys(data[0]).forEach(key => {
+          html += `<th>${key}</th>`;
+        });
+        html += '</tr>';
+
+        data.forEach(obj => {
+          html += '<tr>';
+          Object.values(obj).forEach(value => {
+            html += `<td>${value}</td>`;
+          });
+          html += '</tr>';
+        });
+
+        html += '</table>';
+        $('#tabla-container').html(html);
+      }
+
+      function mostrarLista(data) {
+        let html = '<ul>';
+        data.forEach((item, index) => {
+          html += `<li><strong>Elemento ${index + 1}:</strong><ul>`;
+          for (let key in item) {
+            html += `<li>${key}: ${item[key]}</li>`;
+          }
+          html += '</ul></li>';
+        });
+        html += '</ul>';
+        $('#lista-container').html(html);
+      }
+
+      function mostrarFormulario(data) {
+        let html = '';
+        data.forEach((item, index) => {
+          html += `<div class="formulario"><h4>Formulario ${index + 1}</h4>`;
+          for (let key in item) {
+            html += `<label>${key}:</label> <input type="text" value="${item[key]}" readonly><br>`;
+          }
+          html += '</div>';
+        });
+        $('#formulario-container').html(html);
+      }
+    });
+  </script>
+
+</body>
+</html>
