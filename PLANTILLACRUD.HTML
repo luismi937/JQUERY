@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CRUD en un solo documento con jQuery</title>
+
+  <!-- Enlace externo a jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <!-- Estilos internos -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 15px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #eee;
+    }
+    form > div {
+      margin-bottom: 10px;
+    }
+    button {
+      cursor: pointer;
+      padding: 6px 12px;
+    }
+    .btn-edit {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      margin-right: 5px;
+    }
+    .btn-delete {
+      background-color: #f44336;
+      color: white;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>CRUD Básico con jQuery (Todo en un archivo)</h2>
+
+  <form id="formPerson">
+    <input type="hidden" id="personId" value="" />
+    <div>
+      <label for="name">Nombre:</label><br />
+      <input type="text" id="name" required />
+    </div>
+    <div>
+      <label for="email">Correo:</label><br />
+      <input type="email" id="email" required />
+    </div>
+    <button type="submit" id="btnSubmit">Agregar</button>
+    <button type="button" id="btnCancel" style="display:none;">Cancelar</button>
+  </form>
+
+  <table id="personsTable">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Correo</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Datos aquí -->
+    </tbody>
+  </table>
+
+  <!-- Script interno -->
+  <script>
+    $(document).ready(function() {
+      let persons = [];
+      let editIndex = -1;
+
+      function renderTable() {
+        const tbody = $('#personsTable tbody');
+        tbody.empty();
+        persons.forEach((person, index) => {
+          const row = `
+            <tr>
+              <td>${index + 1}</td>
+              <td>${person.name}</td>
+              <td>${person.email}</td>
+              <td>
+                <button class="btn-edit" data-index="${index}">Editar</button>
+                <button class="btn-delete" data-index="${index}">Eliminar</button>
+              </td>
+            </tr>
+          `;
+          tbody.append(row);
+        });
+      }
+
+      $('#formPerson').submit(function(e) {
+        e.preventDefault();
+        const name = $('#name').val().trim();
+        const email = $('#email').val().trim();
+
+        if(editIndex === -1) {
+          persons.push({ name, email });
+        } else {
+          persons[editIndex] = { name, email };
+          editIndex = -1;
+          $('#btnSubmit').text('Agregar');
+          $('#btnCancel').hide();
+        }
+
+        renderTable();
+        this.reset();
+      });
+
+      $('#btnCancel').click(function() {
+        editIndex = -1;
+        $('#formPerson')[0].reset();
+        $('#btnSubmit').text('Agregar');
+        $(this).hide();
+      });
+
+      $('#personsTable tbody').on('click', '.btn-edit', function() {
+        editIndex = $(this).data('index');
+        const person = persons[editIndex];
+        $('#name').val(person.name);
+        $('#email').val(person.email);
+        $('#btnSubmit').text('Actualizar');
+        $('#btnCancel').show();
+      });
+
+      $('#personsTable tbody').on('click', '.btn-delete', function() {
+        const index = $(this).data('index');
+        if(confirm('¿Seguro que deseas eliminar este registro?')) {
+          persons.splice(index, 1);
+          renderTable();
+          if(editIndex === index) {
+            $('#formPerson')[0].reset();
+            editIndex = -1;
+            $('#btnSubmit').text('Agregar');
+            $('#btnCancel').hide();
+          }
+        }
+      });
+
+      renderTable();
+    });
+  </script>
+
+</body>
+</html>
